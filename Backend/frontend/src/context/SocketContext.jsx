@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthProvider";
 import io from "socket.io-client";
+import PropTypes from "prop-types";
 const socketContext = createContext();
 
 // it is a hook.
@@ -37,4 +38,8 @@ export const SocketProvider = ({ children }) => {
       {children}
     </socketContext.Provider>
   );
+};
+
+SocketProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

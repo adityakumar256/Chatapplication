@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import Path from "path";
 
 import userRoute from "./routes/user.route.js";
 import messageRoute from "./routes/message.route.js";
@@ -23,6 +24,18 @@ try {
     console.log("Connected to MongoDB");
 } catch (error) {
     console.log(error);
+}
+
+//............................ code for deployment ............................//
+if (process.env.NODE_ENV === "production") {
+    const dirPath =  Path.resolve();
+    app.use(express.static(Path.join(dirPath, "Frontend", "build")));
+
+    app.get("*", (req, res) => {
+        res.sendFile(
+            Path.resolve(dirPath, "Frontend", "build", "index.html")
+        );
+    });
 }
 
 //routes
